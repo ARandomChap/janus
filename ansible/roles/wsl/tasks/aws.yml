@@ -1,0 +1,73 @@
+---
+###
+# Removing AWS CLI v1
+###
+
+- name: Remove aws-mfa file
+  become: yes
+  file:
+    path: /usr/local/bin/aws-mfa
+    state: absent
+
+- name: Remove AWS CLI v1
+  become: yes
+  apt:
+    name: awscli
+    state: absent
+    autoremove: yes
+
+###
+# Download, verify, install & configure AWS CLI v2
+###
+
+# Download & verify section
+
+- name: Import AWS CLI PGP public key # noqa 301 305
+  shell: "gpg --import {{ awscliv2_pgp_public_key }}"
+
+- name: Download AWS CLI v2 signature file
+  get_url:
+    url: "{{ awscliv2_signature_url }}"
+    dest: "{{ awscliv2_install_dir }}/{{ awscliv2_signature_filename }}"
+    force: yes
+
+- name: Download AWS CLI v2 zip file
+  get_url:
+    url: "{{ awscliv2_archive_url }}"
+    dest: "{{ awscliv2_install_dir }}/{{ awscliv2_archive_filename }}"
+    force: yes
+
+- name: Verify AWS CLI v2 zip signature # noqa 301 305
+  shell: "gpg --verify {{ awscliv2_install_dir }}/{{ awscliv2_signature_filename }} {{ awscliv2_install_dir }}/{{ awscliv2_archive_filename }}"
+
+# Unzip, install & configure section
+
+- name: Unzip AWS CLI v2
+  unarchive:
+    src: "{{ awscliv2_install_dir }}/{{ awscliv2_archive_filename }}"
+    dest: "{{ awscliv2_install_dir }}"
+    remote_src: yes
+
+- name: Install AWS CLI v2 (always perform an update to make it idempotent) # noqa 301 305
+  become: true
+  shell: "{{ awscliv2_install_dir }}/aws/install --update"
+
+# Clean up section
+
+- name: Delete {{ awscliv2_archive_filename }}
+  file:
+    path: "{{ awscliv2_install_dir }}/{{ awscliv2_archive_filename }}"
+    state: absent
+
+- name: Remove {{ awscliv2_install_dir }}/aws directory
+  file:
+    path: "{{ awscliv2_install_dir }}/aws"
+    state: absent
+
+- name: Delete {{ awscliv2_signature_filename }}
+  file:
+    path: "{{ awscliv2_install_dir }}/{{ awscliv2_signature_filename }}"
+    state: absent
+
+- name: Delete AWS CLI PGP public key # noqa 301 305
+  shell: "gpg --batch --yes --delete-key {{ awscliv2_pgp_public_key_fingerprint }}"

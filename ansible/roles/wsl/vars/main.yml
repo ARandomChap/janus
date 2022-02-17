@@ -1,0 +1,45 @@
+apt_repositories:
+  - ppa:git-core/ppa
+  - ppa:longsleep/golang-backports
+  - ppa:rmescandon/yq
+  - deb https://cli.github.com/packages {{ linux_distro_codename }} main
+  - deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{linux_distro_codename}} main
+  - deb https://baltocdn.com/helm/stable/debian/ all main
+
+apt_packages:
+  - apt-transport-https
+  - azure-cli
+  - cowsay
+  - curl
+  - gh
+  - git
+  - golang-go
+  - helm
+  - jq
+  - kubectl
+  - shellcheck
+  - unzip
+  - yq
+  - zip
+
+node_version: 16
+
+terraform_version: "1.1.5"
+terraform_install_dir: "/usr/local/bin"
+terraform_download_url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+
+terragrunt_version: "0.36.1"
+terragrunt_install_dir: "/usr/local/bin"
+terragrunt_download_url: "https://github.com/gruntwork-io/terragrunt/releases/download/v{{ terragrunt_version }}/terragrunt_linux_amd64"
+
+minikube_install_dir: "/usr/local/bin"
+
+awscliv2_install_dir: "/tmp"
+awscliv2_archive_url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+awscliv2_archive_filename: "awscliv2.zip"
+awscliv2_signature_url: "{{ awscliv2_archive_url }}.sig"
+awscliv2_signature_filename: "awscliv2.sig"
+# The AWS CLI PGP public key expires on 17-09-2023 - see link below
+# https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#v2-install-linux-validate
+awscliv2_pgp_public_key: "{{ role_path }}/files/aws-cli-pgp-public-key"
+awscliv2_pgp_public_key_fingerprint: "A6310ACC4672475C"

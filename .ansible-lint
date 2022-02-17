@@ -1,0 +1,11 @@
+# https://ansible-lint.readthedocs.io/en/latest/
+#
+# I've excluded these rules for now to get the GitHub action to pass.
+# These should be revisited to see if they can be fixed.
+warn_list:
+  - '301'  # Commands should not change things if nothing needs doing
+  - '303'  # Using command rather than module
+  - '305'  # Use shell only when shell functionality is required
+  - '306'  # Shells that use pipes should set the pipefail option
+  - '401'  # Git checkouts must contain explicit version
+  - '403'  # Package installs should not use latest

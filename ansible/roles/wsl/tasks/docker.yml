@@ -1,0 +1,45 @@
+- name:  Install packages to allow apt to use a repository over HTTPS # noqa 403
+  become: yes
+  apt:
+    name:
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+    state: latest
+    update_cache: yes
+
+- name: Add Dockers official GPG key
+  become: yes
+  apt_key:
+    url: "https://download.docker.com/linux/ubuntu/gpg"
+    state: present
+
+- name: Adding apt repository for Docker
+  become: yes
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ linux_distro_codename }} stable
+    state: present
+
+- name:  Install the latest version of Docker Engine and containerd # noqa 403
+  become: yes
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: latest
+    update_cache: yes
+
+- name: Ensure group "docker" exists
+  become: yes
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add the $USER to docker group
+  become: yes
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes

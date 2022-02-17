@@ -1,0 +1,10 @@
+---
+- name: Add a source file for the official Node.js {{ node_version }}.x repo # noqa 301 303 306
+  shell:
+    curl -sL https://deb.nodesource.com/setup_{{ node_version }}.x | sudo -E bash -
+
+- name: Install Node.js {{ node_version }}.x # noqa 403
+  become: yes
+  apt:
+    name: nodejs
+    state: latest

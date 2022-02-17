@@ -1,0 +1,55 @@
+---
+- name: Add GitHub CLI apt key (https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-apt)
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: C99B11DEB97541F0
+
+- name: Import Azure CLI apt key
+  become: yes
+  apt_key:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+    state: present
+
+- name: Add an apt signing key for Kubernetes
+  become: yes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Adding apt repository for Kubernetes
+  become: yes
+  apt_repository:
+    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    state: present
+    filename: kubernetes.list
+
+- name: Import Helm apt key
+  become: yes
+  apt_key:
+    url: "https://baltocdn.com/helm/signing.asc"
+    state: present
+
+- name: Add PPA repositories
+  become: yes
+  apt_repository:
+    repo: "{{ item }}"
+  with_items: "{{ apt_repositories }}"
+
+- name: Update and upgrade apt packages
+  become: yes
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+
+- name: Install packages # noqa 403
+  become: yes
+  apt:
+    name: "{{ apt_packages }}"
+    state: latest
+
+- name: Remove dependencies that are no longer required
+  become: yes
+  apt:
+    autoremove: yes

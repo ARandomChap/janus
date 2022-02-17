@@ -1,0 +1,10 @@
+- import_tasks: apt.yml
+- import_tasks: node.yml
+- import_tasks: go.yml
+- import_tasks: aws.yml
+- import_tasks: cows.yml
+- import_tasks: terraform.yml
+- import_tasks: terragrunt.yml
+- import_tasks: minikube.yml
+- import_tasks: docker.yml
+- import_tasks: dotnet.yml

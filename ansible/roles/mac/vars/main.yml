@@ -1,0 +1,75 @@
+---
+brew_taps:
+  - aws/tap
+  - isen-ng/dotnet-sdk-versions
+
+brew_packages:
+  - aws-sam-cli
+  - awscli
+  - azure-cli
+  - bash
+  - bash-completion
+  - cfn-lint
+  - cowsay
+  - curl
+  - derailed/k9s/k9s
+  - docker
+  - git
+  - github/gh/gh
+  - gnu-sed
+  - go
+  - helm
+  - java
+  - jmeter
+  - jq
+  - kubectl
+  - minikube
+  - mono
+  - node@16
+  - pipenv
+  - pyenv
+  - shellcheck
+  - terraform
+  - terragrunt
+  - tflint
+  - vim
+  - wget
+  - xmlstarlet
+  - yq
+
+brew_packages_uninstall:
+  - dep
+  - dotnet-sdk
+  - node
+  - node@12
+  - node@14
+
+brew_casks:
+  - dotnet-sdk3-1-400
+  - dotnet-sdk5-0-400
+  - dotnet-sdk6-0-100
+  - multipass
+  - postman
+  - slack
+  - visual-studio-code
+  - vnc-viewer
+
+brew_casks_uninstall:
+  - docker
+
+gem_packages:
+  - jsduck
+  - lolcat
+
+node_packages:
+  - aws-cdk
+  - grunt-cli
+  - gulp-cli
+  - less
+  - sass
+  - typescript
+  - underscore-cli
+
+python_version: 3.7.7
+docker_compose_version: 1.29.2
+ssh_public_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

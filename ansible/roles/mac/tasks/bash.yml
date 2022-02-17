@@ -1,0 +1,7 @@
+---
+- name: Setup the bash profile
+  copy:
+    src: bash_profile
+    dest: $HOME/.bash_profile
+    mode: 0644
+    force: no

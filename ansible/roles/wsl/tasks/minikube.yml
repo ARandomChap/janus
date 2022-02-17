@@ -1,0 +1,19 @@
+- name: Ensure install directory is available.
+  file:
+    path: "{{ minikube_install_dir }}"
+    mode: 0755
+    state: directory
+
+- name: Download minikube
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /tmp/minikube-linux-amd64
+
+- name: Install minikube # noqa 301 305
+  become: yes
+  shell: "sudo install /tmp/minikube-linux-amd64 {{ minikube_install_dir }}/minikube"
+
+- name: Delete tmp minikube package
+  file:
+    path: /tmp/minikube-linux-amd64
+    state: absent

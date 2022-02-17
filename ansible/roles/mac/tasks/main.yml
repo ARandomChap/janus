@@ -1,0 +1,14 @@
+---
+- import_tasks: bash.yml
+- import_tasks: zsh.yml
+- import_tasks: brew.yml
+- import_tasks: node.yml
+- import_tasks: python.yml
+- import_tasks: npm.yml
+- import_tasks: gem.yml
+- import_tasks: git.yml
+- import_tasks: go.yml
+- import_tasks: dotnet.yml
+- import_tasks: cows.yml
+- import_tasks: gsed.yml
+- import_tasks: multipass.yml

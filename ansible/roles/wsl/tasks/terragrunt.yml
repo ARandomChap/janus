@@ -1,0 +1,23 @@
+- name: Ensure install directory is available.
+  file:
+    path: "{{ terragrunt_install_dir }}"
+    mode: 0755
+    state: directory
+
+- name: Download terragrunt
+  get_url:
+    url: "{{ terragrunt_download_url }}"
+    dest: /tmp/terragrunt
+
+- name: "Move terragrunt {{ terragrunt_version }} to PATH."
+  become: true
+  copy:
+    src: "/tmp/terragrunt"
+    dest: "{{ terragrunt_install_dir }}"
+    force: yes
+    mode: 0755
+
+- name: Delete terragrunt {{ terragrunt_version }} from tmp.
+  file:
+    path: "/tmp/terragrunt"
+    state: absent

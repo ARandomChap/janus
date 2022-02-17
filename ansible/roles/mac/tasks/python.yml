@@ -1,0 +1,30 @@
+---
+- name: Remove Python alias in zshrc file for python 3
+  lineinfile:
+    path: "$HOME/.zshrc"
+    line: 'alias python="/usr/local/bin/python3.7"'
+    state: absent
+
+# Set up pyenv for python 3 https://opensource.com/article/19/5/python-3-default-mac
+- name: Install python via pyenv
+  command: pyenv install "{{ python_version }}"
+  args:
+    creates: "$HOME/.pyenv/versions/{{ python_version }}"
+
+- name: Set python version pyenv global # noqa 301
+  command: pyenv global "{{ python_version }}"
+
+- name: Add Python alias in zshrc file for python 3
+  blockinfile:
+    path: "$HOME/.zshrc"
+    block: |
+      if command -v pyenv 1>/dev/null 2>&1; then
+        eval "$(pyenv init -)"
+      fi
+
+# set up pyenv to run multiple versions of python https://opensource.com/article/20/4/pyenv
+- name: Set up multiple versions of python
+  lineinfile:
+    path: "$HOME/.zshrc"
+    line: 'PATH=$(pyenv root)/shims:$PATH'
+    state: present

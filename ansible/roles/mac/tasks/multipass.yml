@@ -1,0 +1,27 @@
+---
+- name: Create directory for Multipass config
+  file:
+    path: $HOME/.multipass
+    state: directory
+    mode: 0755
+
+- name: Copy the cloud-init config file to setup the Multipass VM to host docker
+  template:
+    src: multipass/docker.yml
+    dest: $HOME/.multipass/docker.yml
+    mode: 0644
+    force: yes
+
+- name: Copy the script to create the Multipass VM to host docker
+  copy:
+    src: multipass/create-docker-vm.sh
+    dest: $HOME/.multipass/create-docker-vm.sh
+    mode: 0755
+    force: yes
+
+- name: Copy the script to install Portainer CE as a replacement for Docker Desktop UI
+  copy:
+    src: multipass/install-portainer.sh
+    dest: $HOME/.multipass/install-portainer.sh
+    mode: 0755
+    force: yes

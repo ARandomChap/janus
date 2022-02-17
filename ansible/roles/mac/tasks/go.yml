@@ -1,0 +1,18 @@
+---
+- name: Add GOPATH in bash_profile
+  lineinfile:
+    path: "$HOME/.zshrc"
+    line: "export GOPATH=$HOME/go"
+    state: present
+
+- name: Update PATH with GOPATH in bash_profile
+  lineinfile:
+    path: "$HOME/.zshrc"
+    line: 'export PATH="${GOPATH}/bin:${PATH}"'
+    state: present
+
+- name: Update GOPRIVATE with github.com/<...>
+  lineinfile:
+    path: "$HOME/.zshrc"
+    line: 'export GOPRIVATE="github.com/<...>"'
+    state: present

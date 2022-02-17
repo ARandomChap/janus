@@ -1,0 +1,7 @@
+---
+- name: Create apps folder
+  file:
+    path: $HOME/git/apps
+    state: directory
+    mode: 0755
+

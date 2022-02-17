@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Git pre-commit
+#
+
+# Validate playbooks
+echo "😇  [TEST] Validate playbooks syntax"
+
+if ! make vet; then
+    exit 1
+fi
+
+
+# Lint playbooks
+echo "😇  [TEST] Lint the playbooks"
+
+if ! make lint; then
+    exit 1
+fi

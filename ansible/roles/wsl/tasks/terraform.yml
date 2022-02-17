@@ -1,0 +1,23 @@
+- name: Ensure install directory is available.
+  file:
+    path: "{{ terraform_install_dir }}"
+    mode: 0755
+    state: directory
+
+- name: Download terraform
+  get_url:
+    url: "{{ terraform_download_url }}"
+    dest: /tmp/terraform_{{ terraform_version }}_darwin_amd64.zip
+
+- name: "Unarchive terraform {{ terraform_version }} zip."
+  become: true
+  unarchive:
+    src: "/tmp/terraform_{{ terraform_version }}_darwin_amd64.zip"
+    dest: "{{ terraform_install_dir }}"
+    mode: 0755
+    remote_src: yes
+
+- name: Delete {{ terraform_version }} zip.
+  file:
+    path: "/tmp/terraform_{{ terraform_version }}_darwin_amd64.zip"
+    state: absent

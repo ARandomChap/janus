@@ -1,0 +1,5 @@
+- name: A playbook to setup Ubuntu 20.04 via the Windows Subsystem for Linux
+  hosts: wsl
+  connection: local
+  roles:
+    - wsl

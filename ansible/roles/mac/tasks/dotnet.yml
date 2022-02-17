@@ -1,0 +1,7 @@
+---
+- name: Setup the mono omnisharp options for VSCode
+  copy:
+    src: .omnisharp
+    dest: $HOME/
+    mode: 0644
+    force: yes

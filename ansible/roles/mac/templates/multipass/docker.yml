@@ -1,0 +1,23 @@
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-authorized-keys:
+      - {{ssh_public_key}}
+package_update: true
+packages:
+  - apt-transport-https
+  - avahi-daemon
+  - ca-certificates
+  - curl
+  - docker
+  - gnupg
+  - lsb-release
+runcmd:
+  - sudo curl -fsSL https://get.docker.com | sudo bash
+  - sudo systemctl enable docker
+  - sudo systemctl enable -s HUP ssh
+  - sudo groupadd docker
+  - sudo usermod -aG docker ubuntu
+  - sudo curl -L "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo systemctl daemon-reload

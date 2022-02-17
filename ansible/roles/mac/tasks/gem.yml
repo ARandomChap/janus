@@ -1,0 +1,6 @@
+---
+- name: Install gem packages # noqa 403
+  gem:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ gem_packages }}"

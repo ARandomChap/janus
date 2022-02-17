@@ -1,0 +1,13 @@
+- name: Install .NET debian package
+  become: yes
+  apt:
+    deb: https://packages.microsoft.com/config/ubuntu/{{ linux_distro_version }}/packages-microsoft-prod.deb
+
+- name: Install .NET SDK # noqa 403
+  become: yes
+  apt:
+    name:
+      - apt-transport-https
+      - dotnet-sdk-3.1
+    state: latest
+    update_cache: yes
